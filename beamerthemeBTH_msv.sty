@@ -1,0 +1,31 @@
+% BTH Beamer template
+% Created 2009-06-02
+% Adapted to BTH 2011 GP 2012-03-02
+% Mikael.Svahnberg@bth.se
+
+
+% introduce options
+\DeclareOptionBeamer{compress}{\beamer@compresstrue}
+
+
+\newif\ifbeamer@framenumber
+\beamer@framenumberfalse
+\DeclareOptionBeamer{framenumber}{\beamer@framenumbertrue}
+
+\ProcessOptionsBeamer
+
+
+% Start the BTH specific stuff.
+\mode<presentation>
+
+\usepackage{mathptmx}
+\usepackage{helvet}
+
+\useinnertheme{BTH_msv}
+\usefonttheme {BTH_msv}
+\usecolortheme{BTH_msv}
+\useoutertheme{BTH_msv}
+\setbeamertemplate{navigation symbols}{}
+
+\mode
+<all>

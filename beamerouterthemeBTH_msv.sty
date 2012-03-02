@@ -1,0 +1,72 @@
+% BTH Beamer template
+% Created 2009-06-02
+% Adapted to BTH 2011 GP 2012-03-02
+% Mikael.Svahnberg@bth.se
+
+
+% Assumed page dimensions (128mm x 96mm).
+
+\RequirePackage{ifthen}
+\RequirePackage{pgf}
+
+\mode<presentation>
+
+% Lengths
+\newlength{\logowidth}
+\setlength{\logowidth}{2.5cm}
+
+\newlength{\margin}
+\setlength{\margin}{0.5cm}
+
+\newlength{\smallmargin}
+\setlength{\smallmargin}{0.1cm}
+
+
+% Images
+\pgfdeclareimage[width=\logowidth]{BTHLogo}{BTHlogo.png}
+\pgfdeclareimage[width=\logowidth]{BTHHeaderBG}{BTHHeaderBG.png}
+\pgfdeclareimage[width=\paperwidth]{BTHbg_first}{BTHbg_firstslide}
+\pgfdeclareimage[width=\paperwidth]{BTHbg}{BTHbg}
+
+% headline
+\defbeamertemplate*{headline}{bth theme}%
+{%
+% Frame Numbers (Not available in Official BTH slides)
+\pgfputat{\pgfpoint{\smallmargin}{\smallmargin}}{\pgfbox[right,top]{%
+	\usebeamerfont{frame number in foot}%
+	\usebeamercolor[fg]{frame number in foot}\insertframenumber{}/\inserttotalframenumber%
+}}%
+%
+% \vskip\margin%
+% \hskip\smallmargin%
+}
+
+% frametitle
+\defbeamertemplate*{frametitle}{bth theme}%
+{%
+      \medskip%
+      \begin{beamercolorbox}[left]{frame title}%
+        \insertframetitle\par%
+      \end{beamercolorbox}%
+}
+
+% footline
+\defbeamertemplate*{footline}{bth theme}
+{%
+}%
+
+% set left and right text margins
+\setbeamersize{text margin left=\margin, text margin right=\margin}
+
+% background
+\defbeamertemplate*{background canvas}{bth theme}
+{%
+    \ifnum\c@framenumber=1%
+      \pgfuseimage{BTHbg_first}
+    \else%
+      \pgfuseimage{BTHbg}%
+    \fi%
+}
+
+\mode
+<all>
