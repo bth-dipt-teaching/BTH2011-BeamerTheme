@@ -8,18 +8,22 @@
 
 \RequirePackage{ifthen}
 \RequirePackage{pgf}
+\RequirePackage{helvet}
 
 \mode<presentation>
 
 % Lengths
 \newlength{\logowidth}
-\setlength{\logowidth}{2.5cm}
+\setlength{\logowidth}{1.7cm}
 
 \newlength{\margin}
 \setlength{\margin}{0.5cm}
 
 \newlength{\smallmargin}
 \setlength{\smallmargin}{0.1cm}
+
+\newlength{\headwidth}
+\setlength{\headwidth}{12cm}
 
 
 % Images
@@ -32,22 +36,22 @@
 \defbeamertemplate*{headline}{bth theme}%
 {%
 % Frame Numbers (Not available in Official BTH slides)
-\pgfputat{\pgfpoint{\smallmargin}{\smallmargin}}{\pgfbox[right,top]{%
+\pgfputat{\pgfpoint{\paperwidth-\smallmargin}{-0.5mm}}{\pgfbox[right,top]{%
 	\usebeamerfont{frame number in foot}%
 	\usebeamercolor[fg]{frame number in foot}\insertframenumber{}/\inserttotalframenumber%
 }}%
-%
-% \vskip\margin%
-% \hskip\smallmargin%
 }
 
 % frametitle
 \defbeamertemplate*{frametitle}{bth theme}%
 {%
-      \medskip%
-      \begin{beamercolorbox}[left]{frame title}%
-        \insertframetitle\par%
-      \end{beamercolorbox}%
+	\vspace{0.7cm}%
+	\begin{beamercolorbox}[wd=\headwidth,left]{frame title}%
+	\hspace{\logowidth}
+	\insertframetitle\par%
+	% XXX herein lies the problem. You would think that a minipage or a parbox would solve it, would you not?
+	\end{beamercolorbox}%
+	\vspace{0.4cm}%
 }
 
 % footline
