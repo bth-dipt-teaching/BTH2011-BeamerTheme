@@ -12,25 +12,31 @@
 
 \mode<presentation>
 
-% Lengths
-\newlength{\logowidth}
-\setlength{\logowidth}{1.7cm}
+% Lengths & Such
 
-\newlength{\margin}
-\setlength{\margin}{0.5cm}
+\newlength{\margin} \setlength{\margin}{0.5cm}
+\newlength{\smallmargin} \setlength{\smallmargin}{0.1cm}
+\newlength{\logoindent} \setlength{\logoindent}{0.5cm}
 
-\newlength{\smallmargin}
-\setlength{\smallmargin}{0.1cm}
+\newlength{\logowidth} \setlength{\logowidth}{1.3cm}
+\newlength{\logoonlywidth} \setlength{\logoonlywidth}{1cm}
+\newlength{\logoheight} \setlength{\logoheight}{2.1cm}
+\newlength{\logofirstwidth} \setlength{\logofirstwidth}{2cm}
+\newlength{\logofirstheight} \setlength{\logofirstheight}{3.5cm}
+\newlength{\logoonlywidthfirst} \setlength{\logoonlywidthfirst}{1.7cm}
 
-\newlength{\headwidth}
-\setlength{\headwidth}{12cm}
 
+\newlength{\headwidth} \setlength{\headwidth}{12cm}
+\newlength{\headerwidth} \setlength{\headerwidth}{12.7cm}
+\newlength{\headerindent} \setlength{\headerindent}{1.7cm}
+
+
+\newcommand{\bthslogan}{in deep shit}
 
 % Images
-\pgfdeclareimage[width=\logowidth]{BTHLogo}{BTHlogo.png}
-\pgfdeclareimage[width=\logowidth]{BTHHeaderBG}{BTHHeaderBG.png}
-\pgfdeclareimage[width=\paperwidth]{BTHbg_first}{BTHbg_firstslide}
-\pgfdeclareimage[width=\paperwidth]{BTHbg}{BTHbg}
+\pgfdeclareimage[width=\logoonlywidth]{BTHLogoWhite}{BTH_Logo_white.pdf}
+\pgfdeclareimage[width=\logoonlywidthfirst]{BTHLogoWhiteFirst}{BTH_Logo_white.pdf}
+\pgfdeclareimage[width=\headerwidth]{BTHHeaderBG}{BTHHeaderBG.png}
 
 % headline
 \defbeamertemplate*{headline}{bth theme}%
@@ -47,7 +53,7 @@
 {%
 	\vspace{0.7cm}%
 	\begin{beamercolorbox}[wd=\headwidth,left]{frame title}%
-	\hspace{\logowidth}
+	\hspace{\headerindent}
 	\insertframetitle\par%
 	% XXX herein lies the problem. You would think that a minipage or a parbox would solve it, would you not?
 	\end{beamercolorbox}%
@@ -65,11 +71,56 @@
 % background
 \defbeamertemplate*{background canvas}{bth theme}
 {%
-    \ifnum\c@framenumber=1%
-      \pgfuseimage{BTHbg_first}
-    \else%
-      \pgfuseimage{BTHbg}%
-    \fi%
+\pgfdeclareradialshading{BTHBGBlue}{\pgfpoint{0cm}{0.5cm}}  {rgb(0cm)=(0.03,0.45,0.70); rgb(1cm)=(0,0.3,0.60); rgb(2cm)=(0,0.3,0.45)} %
+%
+\begin{pgfpicture}{0mm}{0mm}{\paperwidth}{\paperheight}
+	{	
+	\color{bthblackbg}
+	\pgfrect[fill]{\pgfpoint{-1mm}{\paperheight}}{\pgfpoint{\paperwidth+1mm}{-3mm}}
+	}
+	
+	\ifnum\c@framenumber=1%
+	{% First slide
+	% URL
+	\color{bthgray}
+	\fontfamily{phv}\fontseries{li}\fontsize{6}{6}\selectfont
+	\pgfputat{\pgfpoint{\logofirstwidth+\logoindent+0.1cm}{\paperheight-0.5mm}}{\pgfbox[left,top]{www.bth.se}}
+	% Logo
+	\pgfpathrectangle{\pgfpoint{\logoindent}{\paperheight}}{\pgfpoint{\logofirstwidth}{-\logofirstheight}} 
+	\pgfshadepath{BTHBGBlue}{0} 
+	\color{white}
+	\pgfputat{\pgfpoint{\logoindent+1.5mm}{\paperheight-2.7cm}}{\pgfuseimage{BTHLogoWhiteFirst}}
+	\fontfamily{phv}\fontseries{li}\fontsize{6}{6}\selectfont
+	\pgfputat{\pgfpoint{\logoindent+0.5\logofirstwidth}{\paperheight-3cm}}{\pgfbox[center,top]{\bthslogan}}	
+	}%	
+	\else%
+	{% All other slides
+	% Header box
+	\pgfputat{\pgfpoint{0mm}{\paperheight-7mm}}{\pgfbox[left,top]{\pgfuseimage{BTHHeaderBG}}}
+	% URL
+	\color{bthgray}
+	\fontfamily{phv}\fontseries{li}\fontsize{6}{6}\selectfont
+	\pgfputat{\pgfpoint{\logowidth+\logoindent+0.1cm}{\paperheight-0.5mm}}{\pgfbox[left,top]{www.bth.se}}
+	% Logo
+	\pgfpathrectangle{\pgfpoint{\logoindent}{\paperheight}}{\pgfpoint{\logowidth}{-\logoheight}} 
+	\pgfshadepath{BTHBGBlue}{0} 
+	\color{white}
+	\pgfputat{\pgfpoint{\logoindent+1.5mm}{\paperheight-1.7cm}}{\pgfuseimage{BTHLogoWhite}}
+	\fontfamily{phv}\fontseries{li}\fontsize{4}{4}\selectfont
+	\pgfputat{\pgfpoint{\logoindent+0.5\logowidth}{\paperheight-1.8cm}}{\pgfbox[center,top]{\bthslogan}}
+	}%
+	\fi%
+\end{pgfpicture}
+%
+%
+%    \ifnum\c@framenumber=1%
+%    {
+%    	
+%    }
+%    %  \pgfuseimage{BTHbg_first}
+%    \else%
+%      \pgfuseimage{BTHbg}%
+%    \fi%
 }
 
 \mode
