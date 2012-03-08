@@ -19,19 +19,46 @@
 \newlength{\logoindent} \setlength{\logoindent}{0.5cm}
 
 \newlength{\logowidth} \setlength{\logowidth}{1.3cm}
-\newlength{\logoonlywidth} \setlength{\logoonlywidth}{1cm}
 \newlength{\logoheight} \setlength{\logoheight}{2.1cm}
-\newlength{\logofirstwidth} \setlength{\logofirstwidth}{2cm}
-\newlength{\logofirstheight} \setlength{\logofirstheight}{3.5cm}
-\newlength{\logoonlywidthfirst} \setlength{\logoonlywidthfirst}{1.7cm}
 
+\newlength{\logoonlywidth} \setlength{\logoonlywidth}{1cm}
+\newlength{\logoonlywidthfirst} \setlength{\logoonlywidthfirst}{1.7cm}
 
 \newlength{\headwidth} \setlength{\headwidth}{12cm}
 \newlength{\headerwidth} \setlength{\headerwidth}{12.7cm}
 \newlength{\headerindent} \setlength{\headerindent}{1.7cm}
 
+\newlength{\logoX}
+\newlength{\logoY}
+\newlength{\sloganY}
+
 
 \newcommand{\bthslogan}{in real life}
+
+\newcommand{\firstslide}{%
+\def\firstpage{1}%
+\setlength{\logowidth}{2cm}%
+\setlength{\logoheight}{3.5cm}%
+\setlength{\logoX}{1.5mm}%
+\setlength{\logoY}{2.7cm}%
+\def\slogansize{6}%
+\setlength{\sloganY}{3cm}%
+\pgfaliasimage{BTHLogo}{BTHLogoWhiteFirst}%
+}%
+
+\newcommand{\notfirstslide}{%
+\def\firstpage{0}%
+\setlength{\logowidth}{1.3cm}%
+\setlength{\logoheight}{2.1cm}%
+\setlength{\logoX}{1.5mm}%
+\setlength{\logoY}{1.7cm}%
+\def\slogansize{4}%
+\setlength{\sloganY}{1.8cm}%
+\pgfaliasimage{BTHLogo}{BTHLogoWhite}%
+}%
+
+\pgfdeclareradialshading{BTHBGBlue}{\pgfpoint{0cm}{0.5cm}}  {rgb(0cm)=(0.03,0.45,0.70); rgb(1cm)=(0,0.3,0.60); rgb(2cm)=(0,0.3,0.45)} %
+
 
 % Images
 \pgfdeclareimage[width=\logoonlywidth]{BTHLogoWhite}{BTH_Logo_white.pdf}
@@ -71,45 +98,64 @@
 % background
 \defbeamertemplate*{background canvas}{bth theme}
 {%
-\pgfdeclareradialshading{BTHBGBlue}{\pgfpoint{0cm}{0.5cm}}  {rgb(0cm)=(0.03,0.45,0.70); rgb(1cm)=(0,0.3,0.60); rgb(2cm)=(0,0.3,0.45)} %
+\ifnum\c@framenumber=1%
+\firstslide%
+\else%
+\notfirstslide%
+\fi%
 %
 \begin{pgfpicture}{0mm}{0mm}{\paperwidth}{\paperheight}
+	% Black bar at top
 	{	
 	\color{bthblackbg}
 	\pgfrect[fill]{\pgfpoint{-1mm}{\paperheight}}{\pgfpoint{\paperwidth+1mm}{-3mm}}
 	}
 	
-	\ifnum\c@framenumber=1%
-	{% First slide
-	% URL
-	\color{bthgray}
-	\fontfamily{phv}\fontseries{li}\fontsize{6}{6}\selectfont
-	\pgfputat{\pgfpoint{\logofirstwidth+\logoindent+0.1cm}{\paperheight-0.5mm}}{\pgfbox[left,top]{www.bth.se}}
-	% Logo
-	\pgfpathrectangle{\pgfpoint{\logoindent}{\paperheight}}{\pgfpoint{\logofirstwidth}{-\logofirstheight}} 
-	\pgfshadepath{BTHBGBlue}{0} 
-	\color{white}
-	\pgfputat{\pgfpoint{\logoindent+1.5mm}{\paperheight-2.7cm}}{\pgfuseimage{BTHLogoWhiteFirst}}
-	\fontfamily{phv}\fontseries{li}\fontsize{6}{6}\selectfont
-	\pgfputat{\pgfpoint{\logoindent+0.5\logofirstwidth}{\paperheight-3cm}}{\pgfbox[center,top]{\bthslogan}}	
-	}%	
-	\else%
-	{% All other slides
 	% Header box
-	\pgfputat{\pgfpoint{0mm}{\paperheight-7mm}}{\pgfbox[left,top]{\pgfuseimage{BTHHeaderBG}}}
-	% URL
+	\ifx\firstpage\undefined
+	\else
+	\if\firstpage0
+		\pgfputat{\pgfpoint{0mm}{\paperheight-7mm}}{\pgfbox[left,top]{\pgfuseimage{BTHHeaderBG}}}
+	\fi
+	\fi
+
+	% BTH URL
 	\color{bthgray}
 	\fontfamily{phv}\fontseries{li}\fontsize{6}{6}\selectfont
 	\pgfputat{\pgfpoint{\logowidth+\logoindent+0.1cm}{\paperheight-0.5mm}}{\pgfbox[left,top]{www.bth.se}}
+	
 	% Logo
 	\pgfpathrectangle{\pgfpoint{\logoindent}{\paperheight}}{\pgfpoint{\logowidth}{-\logoheight}} 
 	\pgfshadepath{BTHBGBlue}{0} 
 	\color{white}
-	\pgfputat{\pgfpoint{\logoindent+1.5mm}{\paperheight-1.7cm}}{\pgfuseimage{BTHLogoWhite}}
-	\fontfamily{phv}\fontseries{li}\fontsize{4}{4}\selectfont
-	\pgfputat{\pgfpoint{\logoindent+0.5\logowidth}{\paperheight-1.8cm}}{\pgfbox[center,top]{\bthslogan}}
-	}%
-	\fi%
+	\pgfputat{\pgfpoint{\logoindent+\logoX}{\paperheight-\logoY}}{\pgfuseimage{BTHLogo}}
+	
+	% Slogan
+	\fontfamily{phv}\fontseries{li}\fontsize{\slogansize}{\slogansize}\selectfont
+	\pgfputat{\pgfpoint{\logoindent+0.5\logowidth}{\paperheight-\sloganY}}{\pgfbox[center,top]{\bthslogan}}	
+
+%	
+%	\ifnum\c@framenumber=1%
+%	{% First slide
+%	% URL
+%	% Logo
+%	}%	
+%	\else%
+%	{% All other slides
+%	% Header box
+%	% URL
+%	\color{bthgray}
+%	\fontfamily{phv}\fontseries{li}\fontsize{6}{6}\selectfont
+%	\pgfputat{\pgfpoint{\logowidth+\logoindent+0.1cm}{\paperheight-0.5mm}}{\pgfbox[left,top]{www.bth.se}}
+%	% Logo
+%	\pgfpathrectangle{\pgfpoint{\logoindent}{\paperheight}}{\pgfpoint{\logowidth}{-\logoheight}} 
+%	\pgfshadepath{BTHBGBlue}{0} 
+%	\color{white}
+%	\pgfputat{\pgfpoint{\logoindent+1.5mm}{\paperheight-1.7cm}}{\pgfuseimage{BTHLogoWhite}}
+%	\fontfamily{phv}\fontseries{li}\fontsize{4}{4}\selectfont
+%	\pgfputat{\pgfpoint{\logoindent+0.5\logowidth}{\paperheight-1.8cm}}{\pgfbox[center,top]{\bthslogan}}
+%	}%
+%	\fi%
 \end{pgfpicture}
 %
 %
