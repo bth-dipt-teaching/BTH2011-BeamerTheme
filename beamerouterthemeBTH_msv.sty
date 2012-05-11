@@ -28,6 +28,8 @@
 \newlength{\headerwidth} \setlength{\headerwidth}{12.7cm}
 \newlength{\headerindent} \setlength{\headerindent}{1.7cm}
 
+\newlength{\headerbgheight} \setlength{\headerbgheight}{1.6cm}
+
 \newlength{\logoX}
 \newlength{\logoY}
 \newlength{\sloganY}
@@ -49,11 +51,11 @@
 \newcommand{\notfirstslide}{%
 \def\firstpage{0}%
 \setlength{\logowidth}{1.3cm}%
-\setlength{\logoheight}{2.1cm}%
+\setlength{\logoheight}{2.4cm}%
 \setlength{\logoX}{1.5mm}%
-\setlength{\logoY}{1.7cm}%
+\setlength{\logoY}{2.0cm}%
 \def\slogansize{4}%
-\setlength{\sloganY}{1.8cm}%
+\setlength{\sloganY}{2.1cm}%
 \pgfaliasimage{BTHLogo}{BTHLogoWhite}%
 }%
 
@@ -63,7 +65,7 @@
 % Images
 \pgfdeclareimage[width=\logoonlywidth]{BTHLogoWhite}{BTH_Logo_white.pdf}
 \pgfdeclareimage[width=\logoonlywidthfirst]{BTHLogoWhiteFirst}{BTH_Logo_white.pdf}
-\pgfdeclareimage[width=\headerwidth]{BTHHeaderBG}{BTHHeaderBG.png}
+\pgfdeclareimage[width=\headerwidth, height=\headerbgheight]{BTHHeaderBG}{BTHHeaderBG.png}
 
 % headline
 \defbeamertemplate*{headline}{bth theme}%
@@ -75,16 +77,37 @@
 }}%
 }
 
+\newcommand{\oldframetitle}[1]{}
+\let\oldframetitle=\frametitle
+
+
+\renewcommand{\frametitle}[1]{
+  \oldframetitle{
+
+  \begin{tabular}{l l}
+    \parbox[t][][t]{2em}{\vfill \hfill} &
+    \parbox[t][][t]{\dimexpr0.9\paperwidth-2.2em\relax}{
+      \vspace*{\fill}
+      #1
+      \vspace*{\fill}
+    }
+  \end{tabular}
+  }
+}
+
 % frametitle
 \defbeamertemplate*{frametitle}{bth theme}%
 {%
-	\vspace{0.7cm}%
+	\vspace{0.2em}%
 	\begin{beamercolorbox}[wd=\headwidth,left]{frame title}%
 	\hspace{\headerindent}
-	\insertframetitle\par%
-	% XXX herein lies the problem. You would think that a minipage or a parbox would solve it, would you not?
+	
+	\begin{minipage}[t][1.5cm]{2in}
+	  \insertframetitle%
+	\end{minipage}
+	
 	\end{beamercolorbox}%
-	\vspace{0.4cm}%
+	\vspace{0.6cm}
 }
 
 % footline
