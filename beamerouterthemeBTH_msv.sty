@@ -81,19 +81,19 @@
 \let\oldframetitle=\frametitle
 
 
-\renewcommand{\frametitle}[1]{
-  \oldframetitle{
-
-  \begin{tabular}{l l}
-    \parbox[t][][t]{2em}{\vfill \hfill} &
-    \parbox[t][][t]{\dimexpr0.9\paperwidth-2.2em\relax}{
-      \vspace*{\fill}
-      #1
-      \vspace*{\fill}
-    }
-  \end{tabular}
-  }
-}
+\renewcommand{\frametitle}[1]{%
+  \oldframetitle{%
+%
+  \begin{tabular}{l l}%
+    \parbox[t][][t]{2em}{\vfill \hfill} &%
+    \parbox[t][][t]{\dimexpr0.9\paperwidth-2.2em\relax}{%
+      \vspace*{\fill}%
+      #1%
+      \vspace*{\fill}%
+    }%
+  \end{tabular}%
+  }%
+}%
 
 % frametitle
 \defbeamertemplate*{frametitle}{bth theme}%
